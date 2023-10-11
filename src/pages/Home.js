@@ -7,21 +7,24 @@ import { fetchMovies } from "service/Api";
 const Home = () => {
 	const [movies, setMovies] = useState([]);
 
-	const fetchAllPosts = async () => {
-		try {
-			// setIsLoading(true);
-			const postsData = await fetchMovies();
-			setMovies(postsData);
-			return postsData
+	useEffect(() => {
+		const fetchAllPosts = async () => {
+			try {
+				// setIsLoading(true);
+				const postsData = await fetchMovies();
+				setMovies(postsData);
+				return postsData
 
-			// setPosts(postsData);
-		} catch (error) {
-			// setError(error.message);
-		} finally {
-			// setIsLoading(false);
+				// setPosts(postsData);
+			} catch (error) {
+				// setError(error.message);
+			} finally {
+				// setIsLoading(false);
+			}
 		}
-	};
-	fetchAllPosts();
+		fetchAllPosts();
+	}, []);
+
 
 	return (
 		<div>
@@ -30,7 +33,7 @@ const Home = () => {
 				{movies.map(movie => {
 					return (
 						<li key={movie.id}>
-							<Link key={movie.id} to={movie.title}>
+							<Link key={movie.id} to={`/movie/${movie.id}`}>
 								{movie.title}
 							</Link>
 						</li>)

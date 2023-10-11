@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { searchhMovies } from "service/ApiSearchMovies";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const Movies = () => {
 	const [search, setSearch] = useState('');
@@ -50,7 +50,7 @@ const Movies = () => {
 				{dataMovies.map(searchMovie => {
 					return (
 						<li key={searchMovie.id}>
-							<Link key={searchMovie.id} to={searchMovie.title}>
+							<Link key={searchMovie.id} to={`/movie/${searchMovie.id}`}>
 								{searchMovie.title}
 							</Link>
 						</li>)
