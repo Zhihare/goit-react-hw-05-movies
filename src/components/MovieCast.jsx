@@ -2,6 +2,8 @@ import React from 'react'
 import { searchhMovieCast } from 'service/SearchMovieCast';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { MovieCastUl } from './MovieCast.styled';
+import defaultPhoto from '../image/defaultphoto.jpg'
 
 const MovieCast = () => {
 	const { movieId } = useParams();
@@ -26,17 +28,19 @@ const MovieCast = () => {
 
 
 	return (
-		<ul>
+		<MovieCastUl>
 			{movieCast.map(({ id, name, profile_path, character }) =>
 			(
 				<li key={id}>
-					<img src={`https://image.tmdb.org/t/p/w92${profile_path}`} alt={name} />
+					{profile_path === null ? (
+						<img src={defaultPhoto} alt={name} width="92" height="138" />
+					) :
+						(<img src={`https://image.tmdb.org/t/p/w92${profile_path}`} alt={name} />)}
 					<h3>{name}</h3>
 					<p>{character}</p>
 				</li>
 			))}
-			<div>MovieCast</div>
-		</ul>
+		</MovieCastUl>
 	)
 }
 

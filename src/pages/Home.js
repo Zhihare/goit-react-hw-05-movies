@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { fetchMovies } from "service/Api";
+import { HomeH1, HomeLi, HomeUl } from "./Home.styled";
+import NoPoster from '../image/default_poster.jpg'
 
 
 const Home = () => {
@@ -28,17 +30,21 @@ const Home = () => {
 
 	return (
 		<div>
-			<div>Trending tuday</div>
-			<ul>
-				{movies.map(movie => {
+			<HomeH1>TRENDING TUDAY</HomeH1>
+			<HomeUl>
+				{movies.map(({ id, title, poster_path }) => {
 					return (
-						<li key={movie.id}>
-							<Link key={movie.id} to={`/movie/${movie.id}`}>
-								{movie.title}
+						<HomeLi key={id}>
+							<Link key={id} to={`/movie/${id}`}>
+								{poster_path === null ? (
+									<img src={NoPoster} alt={title} width="185" height="138" />
+								) :
+									(<img src={`https://image.tmdb.org/t/p/w185${poster_path}`} alt={title}></img>)}
+								<p>{title}</p>
 							</Link>
-						</li>)
+						</HomeLi>)
 				})}
-			</ul>
+			</HomeUl>
 		</div>
 	)
 }

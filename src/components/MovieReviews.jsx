@@ -2,6 +2,7 @@ import React from 'react'
 import { ApiMovieReviews } from 'service/ApiMovieReviews';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { MovieReviewsUl } from './MovieReviews.styled';
 
 const MoviseReviews = () => {
 	const { movieId } = useParams();
@@ -26,14 +27,14 @@ const MoviseReviews = () => {
 	}, [movieId]);
 
 	return (
-		<ul>
+		<MovieReviewsUl>
 			{movieReviews.map(({ author, content, id }) => (
 				<li key={id}>
 					<h3>Author: {author}</h3>
 					<p>{content}</p>
 				</li>
 			))}
-		</ul>
+		</MovieReviewsUl>
 	)
 }
 

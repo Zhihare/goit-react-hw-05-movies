@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { searchhMovies } from "service/ApiSearchMovies";
 import { Link, NavLink } from "react-router-dom";
+import { HomeLi, HomeUl } from "./Home.styled";
+import { MoviesForm } from "./Movies.styled";
+import NoPoster from '../image/default_poster.jpg';
 
 const Movies = () => {
 	const [search, setSearch] = useState('');
@@ -38,24 +41,28 @@ const Movies = () => {
 
 	return (
 		<div>
-			<form onSubmit={handleSubmit}>
+			<MoviesForm onSubmit={handleSubmit}>
 				<input
 					type="text"
 					placeholder="Search movies"
 					onChange={handlSearcheChenge}
 				/>
 				<button type="submit" >Searche</button>
-			</form>
-			<ul>
-				{dataMovies.map(searchMovie => {
+			</MoviesForm>
+			<HomeUl>
+				{dataMovies.map(({ id, title, poster_path }) => {
 					return (
-						<li key={searchMovie.id}>
-							<Link key={searchMovie.id} to={`/movie/${searchMovie.id}`}>
-								{searchMovie.title}
+						<HomeLi key={id}>
+							<Link key={id} to={`/movie/${id}`}>
+								{poster_path === null ? (
+									<img src={NoPoster} alt={title} width="185" height="300" />
+								) :
+									(<img src={`https://image.tmdb.org/t/p/w185${poster_path}`} alt={title}></img>)}
+								<p>{title}</p>
 							</Link>
-						</li>)
+						</HomeLi>)
 				})}
-			</ul>
+			</HomeUl>
 		</div>
 	)
 }

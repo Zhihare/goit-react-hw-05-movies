@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { useState } from 'react'
 import { Outlet, Routes, Route, NavLink, Link, useParams } from 'react-router-dom'
 import { searchhMoviesDetails } from 'service/SearchMovieDetails'
+import { MovieDetailsButtonBack, MovieDetailsContainer } from './MovieDetails.styled'
 
 export const MovieDetails = () => {
 	const { movieId } = useParams();
@@ -33,29 +34,30 @@ export const MovieDetails = () => {
 	return (
 		<div>
 			<NavLink to="/">
-				Back
+				<MovieDetailsButtonBack> Back</MovieDetailsButtonBack>
 			</NavLink>
-			<div>
+			<MovieDetailsContainer>
 				<img src={`https://image.tmdb.org/t/p/w185${poster_path}`} alt={`${title}`} />
-				<h1>{title}</h1>
-				{genres && genres.length > 0 && (
-					<p>Genres:
-						{genres.map(({ id, name }) => (
-							<span key={id}> {name}</span>)
-						)}
-					</p>)}
-				<h2>Overview</h2>
-				<p>{overview}</p>
-
-				<p>Realease date: {release_date}</p>
-				<p>Popularity: {popularity}</p>
-			</div>
-			<Link to={`cast`}>
-				Cast
-			</Link>
-			<Link to={`reviews`}>
-				Reviews
-			</Link>
+				<div>
+					<h2>{title}</h2>
+					<p>Realease date:<span> {release_date}</span></p>
+					<p>Popularity:<span> {popularity}</span></p>
+					{genres && genres.length > 0 && (
+						<p>Genres:
+							{genres.map(({ id, name }) => (
+								<span key={id}> {name}</span>)
+							)}
+						</p>)}
+					<Link to={`cast`}>
+						<button>Cast</button>
+					</Link>
+					<Link to={`reviews`}>
+						<button>Reviews</button>
+					</Link>
+					<h3>Overview</h3>
+					<p>{overview}</p>
+				</div>
+			</MovieDetailsContainer>
 			<Outlet />
 		</div>
 	)
