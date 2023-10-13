@@ -1,16 +1,17 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
-import { Outlet, NavLink, Link, useParams } from 'react-router-dom'
+import { Outlet, Link, useParams, useLocation } from 'react-router-dom'
 import { searchhMoviesDetails } from 'service/SearchMovieDetails'
 import { MovieDetailsButtonBack, MovieDetailsContainer } from './MovieDetails.styled'
 import { Loader } from './Loader'
 
-export const MovieDetails = () => {
+const MovieDetails = () => {
 	const { movieId } = useParams();
 	const [movieInfo, setMovieInfo] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
-
+	const location = useLocation()
+	const backLink = useRef(location.state?.from ?? "/")
 
 	useEffect(() => {
 		const fetchMovie = async () => {
@@ -36,9 +37,9 @@ export const MovieDetails = () => {
 
 	return (
 		<div>
-			<NavLink to="/">
+			<Link to={backLink.current}>
 				<MovieDetailsButtonBack> Back</MovieDetailsButtonBack>
-			</NavLink>
+			</Link>
 			<MovieDetailsContainer>
 				{isLoading && (
 					<Loader />)}
@@ -67,3 +68,5 @@ export const MovieDetails = () => {
 		</div>
 	)
 }
+
+export default MovieDetails;

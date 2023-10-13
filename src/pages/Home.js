@@ -38,7 +38,9 @@ const Home = () => {
 				{movies.map(({ id, title, poster_path }) => {
 					return (
 						<HomeLi key={id}>
-							<Link key={id} to={`/movie/${id}`}>
+							<Link
+								key={id}
+								to={`/movie/${id}`}>
 								{poster_path === null ? (
 									<img src={NoPoster} alt={title} width="185" height="138" />
 								) :
