@@ -4,23 +4,26 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { MovieCastUl } from './MovieCast.styled';
 import defaultPhoto from '../image/defaultphoto.jpg'
+import { Loader } from './Loader';
 
 const MovieCast = () => {
 	const { movieId } = useParams();
 	const [movieCast, setMovieCast] = useState([]);
+	const [isLoading, setIsLoading] = useState(false);
 
 
 	useEffect(() => {
 		const fetchMovieCast = async () => {
 			try {
+				setIsLoading(true);
 				const SearchData = await searchhMovieCast(movieId);
 				setMovieCast(SearchData);
 			}
-			catch {
-
+			catch (error) {
+				alert(error.message);
 			}
 			finally {
-
+				setIsLoading(false);
 			}
 		}
 		fetchMovieCast();
@@ -29,6 +32,8 @@ const MovieCast = () => {
 
 	return (
 		<MovieCastUl>
+			{isLoading && (
+				<Loader />)}
 			{movieCast.map(({ id, name, profile_path, character }) =>
 			(
 				<li key={id}>

@@ -4,24 +4,25 @@ import { Link } from "react-router-dom";
 import { fetchMovies } from "service/Api";
 import { HomeH1, HomeLi, HomeUl } from "./Home.styled";
 import NoPoster from '../image/default_poster.jpg'
-
+import { Loader } from "components/Loader";
 
 const Home = () => {
 	const [movies, setMovies] = useState([]);
+	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
 		const fetchAllPosts = async () => {
 			try {
-				// setIsLoading(true);
+				setIsLoading(true);
 				const postsData = await fetchMovies();
 				setMovies(postsData);
 				return postsData
 
-				// setPosts(postsData);
+
 			} catch (error) {
-				// setError(error.message);
+				alert(error.message);
 			} finally {
-				// setIsLoading(false);
+				setIsLoading(false);
 			}
 		}
 		fetchAllPosts();
@@ -32,6 +33,8 @@ const Home = () => {
 		<div>
 			<HomeH1>TRENDING TUDAY</HomeH1>
 			<HomeUl>
+				{isLoading && (
+					<Loader />)}
 				{movies.map(({ id, title, poster_path }) => {
 					return (
 						<HomeLi key={id}>

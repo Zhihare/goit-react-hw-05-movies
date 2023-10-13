@@ -1,27 +1,30 @@
 import React from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
-import { Outlet, Routes, Route, NavLink, Link, useParams } from 'react-router-dom'
+import { Outlet, NavLink, Link, useParams } from 'react-router-dom'
 import { searchhMoviesDetails } from 'service/SearchMovieDetails'
 import { MovieDetailsButtonBack, MovieDetailsContainer } from './MovieDetails.styled'
+import { Loader } from './Loader'
 
 export const MovieDetails = () => {
 	const { movieId } = useParams();
 	const [movieInfo, setMovieInfo] = useState([]);
+	const [isLoading, setIsLoading] = useState(false);
 
 
 	useEffect(() => {
 		const fetchMovie = async () => {
 			try {
+				setIsLoading(true);
 				const SearchData = await searchhMoviesDetails(movieId);
 				setMovieInfo(SearchData);
 				return SearchData;
 			}
-			catch {
-
+			catch (error) {
+				alert(error.message);
 			}
 			finally {
-
+				setIsLoading(false);
 			}
 		}
 		fetchMovie();
@@ -37,7 +40,9 @@ export const MovieDetails = () => {
 				<MovieDetailsButtonBack> Back</MovieDetailsButtonBack>
 			</NavLink>
 			<MovieDetailsContainer>
-				<img src={`https://image.tmdb.org/t/p/w185${poster_path}`} alt={`${title}`} />
+				{isLoading && (
+					<Loader />)}
+				<img src={`https://image.tmdb.org/t/p/w185${poster_path}`} alt={`${title}`} height={'300px'} />
 				<div>
 					<h2>{title}</h2>
 					<p>Realease date:<span> {release_date}</span></p>
